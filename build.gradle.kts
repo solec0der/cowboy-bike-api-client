@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "io.huggler"
-version = "1.0-SNAPSHOT"
+version = "1.0.0-RELEASE"
 
 repositories {
     mavenCentral()
@@ -67,9 +67,13 @@ publishing {
     repositories {
         maven {
             // change URLs to point to your repos, e.g. http://my.org/repo
-            val releasesRepoUrl = uri(layout.buildDirectory.dir("repos/releases"))
-            val snapshotsRepoUrl = uri(layout.buildDirectory.dir("repos/snapshots"))
+            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
             url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            credentials {
+                username = project.findProperty("ossrhUsername").toString()
+                password = project.findProperty("ossrhPassword").toString()
+            }
         }
     }
 }
